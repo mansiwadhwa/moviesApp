@@ -14,23 +14,11 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
   DataBaseHelper databaseHelper = DataBaseHelper();
-  List<Movies> moviesList= [] ;
+  late List<Movies> moviesList ;
   int count = 0;
 
-  void updateListView() async{
-    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
-    dbFuture.then((database){
-      Future<List<Movies>> movieListFuture= databaseHelper.getMoviesList();
-      movieListFuture.then((moviesList){
-        setState(() {
-          this.moviesList= moviesList;
-          this.count= moviesList.length;
-        });
-      });
-    });
-  }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     if (moviesList == null) {
       moviesList =[];
@@ -87,7 +75,7 @@ class _MovieListState extends State<MovieList> {
             onTap: () async{
               debugPrint("ListTile tapped");
               bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return MovieDetails(this.moviesList[position],"Edit Details");
+                return MovieDetails( this.moviesList[position],"Edit Details");
               }));
               if (result== true){
                 updateListView();
@@ -108,7 +96,18 @@ class _MovieListState extends State<MovieList> {
       updateListView();
     }
   }
-
+  void updateListView() async{
+    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+    dbFuture.then((database){
+      Future<List<Movies>> movieListFuture= databaseHelper.getMoviesList();
+      movieListFuture.then((moviesList){
+        setState(() {
+          this.moviesList= moviesList;
+          this.count= moviesList.length;
+        });
+      });
+    });
+  }
   void _showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
     Scaffold.of(context).showSnackBar(snackBar);

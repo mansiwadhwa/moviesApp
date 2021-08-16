@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/Screens/register.dart';
 
 import 'Screens/add_movie.dart';
 import 'Screens/movie_list.dart';

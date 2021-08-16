@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/Helpers/database_helper.dart';
 import 'package:movies_app/Model/movies.dart';
+import 'package:movies_app/Model/utility.dart';
 
 class MovieDetails extends StatefulWidget {
-  String appBarTitle;
+  final String appBarTitle;
   final Movies movie;
   MovieDetails(this.movie,this.appBarTitle);
 
@@ -14,10 +17,16 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   String appBarTitle;
   final Movies movie;
+
   _MovieDetailsState(this.movie,this.appBarTitle);
-  DataBaseHelper Helper = DataBaseHelper();
+
+  DataBaseHelper Helper = DataBaseHelper(); //indstance of database helper
+
+ // Image image= Image.network("https://cdn.pixabay.com/photo/2014/04/03/11/07/clapperboard-311792_960_720.png" );
+String imageUrl= "";
 
   @override
+  final ImagePicker _picker = ImagePicker();
   TextEditingController titleController = TextEditingController();
   TextEditingController directorController = TextEditingController();
   TextEditingController releaseDateController = TextEditingController();
@@ -45,6 +54,20 @@ class _MovieDetailsState extends State<MovieDetails> {
           child: Container(
             child: ListView(
               children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 300,
+                    width: 300,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                    ),
+                    child: (imageUrl!= "")
+                      ? Image.network(imageUrl):
+                  Image.network("https://cdn.pixabay.com/photo/2014/04/03/11/07/clapperboard-311792_960_720.png")
+                  ),
+                ),
                 //Add Title
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -166,6 +189,14 @@ class _MovieDetailsState extends State<MovieDetails> {
   void moveToLastScreen(){
     Navigator.pop(context, true);
   }
+
+  // pickImageFromGallery() async{
+  //   var image= ImagePicker().pickImage(source: ImageSource.gallery);
+  //   final file =await File(image.path);
+  //     String imgString = Utility.base64String(file.readAsBytesSync());
+  // }
+
+
 
   //Update fields of table
   void updateTitle(){

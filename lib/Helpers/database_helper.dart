@@ -20,9 +20,9 @@ class DataBaseHelper {
   DataBaseHelper._init(); //constructor
 
   factory DataBaseHelper() {
-    // if(_DBhelper == null){
-    //   _DBhelper = DataBaseHelper._init(); //object initaliztion
-    // }
+    if(_DBhelper == null){
+      _DBhelper = DataBaseHelper._init(); //object initaliztion
+    }
     return _DBhelper;
   }
 
